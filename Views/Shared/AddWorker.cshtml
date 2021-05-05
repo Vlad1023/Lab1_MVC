@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "AddEmployee";
+}
+@model Workers
+
+
+    <form method="post" action="AddWorker">
+        <div class="form-group has-error">
+            <label for="Name">Name</label>
+
+            <input class="input-validation-error form-control" data-val="true"
+                   data-val-required="The First name field is required."
+                   id="Name" name="Name" type="text" value="">
+
+            <!-- 'text-danger' has been added on the span with validation error message -->
+            <span class="text-danger field-validation-error" data-valmsg-for="Name"
+                  data-valmsg-replace="true">Name field is required.</span>
+            <br>
+            <label for="Surname">Surname</label>
+
+            <input class="input-validation-error form-control" data-val="true"
+                   data-val-required="Surname field is required."
+                   id="Surname" name="Surname" type="text" value="">
+
+            <!-- 'text-danger' has been added on the span with validation error message -->
+            <span class="text-danger field-validation-error" data-valmsg-for="Surname"
+                  data-valmsg-replace="true">Surname is required.</span>
+            <br>
+            <label for="Patronymic">Patronymic</label>
+
+            <input class="input-validation-error form-control" data-val="true"
+                   data-val-required="Patronymic field is required."
+                   id="Patronymic" name="Patronymic" type="text" value="">
+
+            <!-- 'text-danger' has been added on the span with validation error message -->
+            <span class="text-danger field-validation-error" data-valmsg-for="Patronymic"
+                  data-valmsg-replace="true">Patronymic is required.</span>
+            <br>
+            <label>Payment</label>
+            <input name="Payment" aria-label="Payment" data-val="true"
+                   data-val-required="Payment is required." type="number" />
+            <span class="text-danger field-validation-error" data-valmsg-for="Payment"
+                  data-valmsg-replace="true">Payment field is required.</span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>

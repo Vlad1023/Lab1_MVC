@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "AddWorkType";
+}
+@model WorkTypes
+
+<form method="post" action="AddWorkType">
+    <div class="form-group has-error">
+        <label>Description</label>
+        <textarea type="string" name="Description" class="form-control" aria-label="Description" data-val="true"
+                  data-val-required="The Description is required."></textarea>
+        <span class="text-danger field-validation-error" data-valmsg-for="Description"
+              data-valmsg-replace="true">Description field is required.</span>
+    </div>
+    <div class="form-group has-error">
+        <label>PaymentPerDay</label>
+        <input name="PaymentPerDay" aria-label="PaymentPerDay" data-val="true"
+                  data-val-required="PaymentPerDay is required."  type="number" />
+        <span class="text-danger field-validation-error" data-valmsg-for="PaymentPerDay"
+              data-valmsg-replace="true">PaymentPerDay field is required.</span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

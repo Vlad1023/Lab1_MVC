@@ -1,0 +1,56 @@
+﻿<div class="container">
+    <h2>All works</h2>
+    <p>Type something in the input field to search</p>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter by
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a asp-action="FilterTable" asp-controller="Home" asp-route-filterOption="CountOfWorkersByEachWorkType" class="dropdown-item">CountOfWorkersByEachWorkType</a>
+            <a asp-action="FilterTable" asp-controller="Home" asp-route-filterOption="CountOfWorksByEachWorker" class="dropdown-item">CountOfWorksByEachWorker</a>
+            <a asp-action="FilterTable" asp-controller="Home" asp-route-filterOption="AllWorkers" class="dropdown-item">AllWorkers</a>
+        </div>
+    </div>
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                @foreach (var keyName in ViewData["FilteredKeys"] as IEnumerable<dynamic>)
+                {
+                <th class="bg-info">@keyName</th>
+                }
+            </tr>
+        </thead>
+        <tbody id="myTable">
+
+            @foreach (var workItem in ViewData["FilteredData"] as IEnumerable<dynamic>)
+            {
+            <tr>
+                @{
+                    var rowObj = (IDictionary<string, object>)workItem;
+                    foreach (var item in rowObj)
+                    {
+                        <th class="bg-secondary">@(item.Value)</th>
+                    }
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}

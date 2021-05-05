@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Works>
+
+@{
+    Layout = "_Layout";
+}
+<h6>Works of @ViewBag.Worker.Name @ViewBag.Worker.Surname</h6>
+<ul class="list-group list-group-flush">
+    @foreach (var workItem in Model)
+    {
+        <li class="list-group-item">
+            <a asp-action="DeleteWorkFromWorker" asp-controller="Works" asp-route-delete="delete" asp-route-WorkId="@workItem.WorksId" asp-route-WorkerId="@ViewBag.WorkerId">
+                <button type="button" class="close mr-0 text-danger btn-xl" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </a>
+            <p class="text-left text-primary">
+                @workItem.WorkTypes.Description
+            </p>
+            <div class="d-flex flex-row d-flex flex-row">
+                <div class="col text-center">
+                    <h6 style="font-size: 1.5rem;" class="text-success card-price text-left m-0">$@(workItem.Workers.Payment * 0.01 + workItem.WorkTypes.PaymentPerDay)<span style="font-size: 1.1rem;" class="period">/day</span></h6>
+                </div>
+                <div class="col text-center">
+                    <h4 style="font-size: 1.2rem;" class="text-success text-right m-0">Start date: @workItem.StartDate.Day.@workItem.StartDate.Year</h4>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Add Work by Id
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        @foreach (var workItem in ViewData["AllWorkTypes"] as IEnumerable<WorkTypes>)
+        {
+            <a asp-action="AddWorkToWorker" asp-controller="Works" asp-route-WorkTypeId="@workItem.WorkTypesId" asp-route-WorkerId="@ViewBag.WorkerId" class="dropdown-item">@workItem.WorkTypesId</a>
+        }
+    </div>
+</div>
