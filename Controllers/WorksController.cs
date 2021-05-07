@@ -29,7 +29,15 @@ namespace Lab1_MVC.Controllers
         public IActionResult WorksOfWorker(int id)
         {
             var works = dbContext.Works.FromSqlRaw("select * from Works where WorkersId = {0}", id).ToList();
-            var worker = dbContext.Workers.FromSqlRaw("select * from Workers where WorkersId = {0}", id).First();
+            dynamic worker;
+            try
+            {
+                worker = dbContext.Workers.FromSqlRaw("select * from Workers where WorkersId = {0}", id).First();
+            }
+            catch (InvalidOperationException)
+            {
+                return View(works);
+            }
             ViewBag.WorkerId = id;
             ViewBag.Worker = worker;
             foreach (var item in works)
