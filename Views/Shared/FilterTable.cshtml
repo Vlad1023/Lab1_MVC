@@ -1,5 +1,5 @@
 ﻿<div class="container">
-    <h2>All works</h2>
+    <h2>Information</h2>
     <p>Type something in the input field to search</p>
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -8,6 +8,7 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a asp-action="FilterTable" asp-controller="Home" asp-route-filterOption="CountOfWorkersByEachWorkType" class="dropdown-item">CountOfWorkersByEachWorkType</a>
             <a asp-action="FilterTable" asp-controller="Home" asp-route-filterOption="CountOfWorksByEachWorker" class="dropdown-item">CountOfWorksByEachWorker</a>
+            <a asp-action="FilterTable" asp-controller="Home" asp-route-filterOption="WorkersThatDoNothing" class="dropdown-item">WorkersThatDoNothing</a>
             <a asp-action="FilterTable" asp-controller="Home" asp-route-filterOption="AllWorkers" class="dropdown-item">AllWorkers</a>
         </div>
     </div>
@@ -18,7 +19,7 @@
             <tr>
                 @foreach (var keyName in ViewData["FilteredKeys"] as IEnumerable<dynamic>)
                 {
-                <th class="bg-info">@keyName</th>
+                    <th class="bg-info">@keyName</th>
                 }
             </tr>
         </thead>
@@ -26,18 +27,22 @@
 
             @foreach (var workItem in ViewData["FilteredData"] as IEnumerable<dynamic>)
             {
-            <tr>
-                @{
-                    var rowObj = (IDictionary<string, object>)workItem;
-                    foreach (var item in rowObj)
-                    {
-                        <th class="bg-secondary">@(item.Value)</th>
+                <tr>
+                    @{
+                        var rowObj = (IDictionary<string, object>)workItem;
+                        foreach (var item in rowObj)
+                        {
+                            <th class="bg-secondary">@(item.Value)</th>
+                        }
                     }
-                }
-            </tr>
+                </tr>
             }
         </tbody>
     </table>
+    <form id="formPdf" method="post" action="/Home/CreatePDF">
+        <input id="submitToCreatePdf" type="hidden" value="" name="htmlString" />
+        <input type="submit" value="Create Pdf" />
+    </form>
 
 </div>
 
@@ -52,5 +57,16 @@
                 });
             });
         });
+        $(document).ready(function () {
+            $("#formPdf").on("mouseover", function () {
+                var htmlString = document.body.innerHTML;
+                var tableStartIndex = htmlString.indexOf('<table class="table table-bordered table-striped">')
+                var tableEndStr = '</table>';
+                var tableEndIndex = htmlString.indexOf(tableEndStr);
+                resString = htmlString.substring(tableStartIndex, tableEndIndex + tableEndStr.length);
+                $("#submitToCreatePdf").attr("value", resString);
+            });
+        });
+   
     </script>
 }
